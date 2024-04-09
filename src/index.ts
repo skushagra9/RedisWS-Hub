@@ -2,6 +2,7 @@ import { WebSocketServer } from 'ws';
 import http from 'http';
 import { createClient } from "redis";
 import { v4 as uuidv4 } from 'uuid';
+import { subscribeToChannel, unsubscribeFromChannel } from './subscriber';
 
 const server = http.createServer(function(request: any, response: any) {
   console.log((new Date()) + ' Received request for ' + request.url);
@@ -12,17 +13,10 @@ const wss = new WebSocketServer({ server });
 
 wss.on('connection', async function connection(ws) {
   const client = createClient();
-  const subscriber = createClient();
-  await subscriber.connect()
   await client.connect()
   const id = uuidv4()
 
-  subscriber.subscribe(id, function(messages, channel) {
-    const messageData = JSON.parse(messages).data;
-    const message = Buffer.from(messageData.data).toString('utf-8');
-    console.log(`Received message from channel ${channel}: ${message}`);
-    ws.send(message)
-  });
+  subscribeToChannel(id, ws);
 
   ws.on('error', console.error);
 
@@ -34,7 +28,7 @@ wss.on('connection', async function connection(ws) {
 
   ws.on('close', () => {
     console.log('Client disconnected');
-
+    unsubscribeFromChannel();
     client.unsubscribe();
     client.quit();
   });
