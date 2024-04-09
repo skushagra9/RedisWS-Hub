@@ -11,8 +11,11 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@types/uuid": "^9.0.8",
     "@types/ws": "^8.5.10",
+    "redis": "^4.6.13",
     "typescript": "^5.4.4",
+    "uuid": "^9.0.1",
     "ws": "^8.16.0"
   }
 }
