@@ -1,4 +1,6 @@
 # Real-Time Redis-Driven WebSocket Hub
+![image](https://github.com/skushagra9/RedisWS-Hub/assets/120712705/45ec3c94-b5c6-4312-94d9-5dcbef13b4f3)
+
 
 ## Overview
 This project implements a WebSocket server that allows users to connect and send their user IDs without authentication. The WebSocket server is integrated with Redis to subscribe to a pub/sub channel, enabling real-time communication and event broadcasting to relevant users.
